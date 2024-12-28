@@ -1,0 +1,13 @@
+node_modules
+dist
+*.log
+*.env*
+pnpm-lock.yaml
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+Jenkinsfile
+README.md
+.vscode/
+.idea/
