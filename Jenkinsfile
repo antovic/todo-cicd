@@ -49,30 +49,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    try {
-                        sh 'docker build -t $DOCKER_IMAGE .'
-                    } catch (err) {
-                        error "Docker build failed: ${err}"
-                    }
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    try {
-                        sh 'docker-compose up -d'
-                    } catch (err) {
-                        error "Deployment failed: ${err}"
-                    }
-                }
-            }
-        }
     }
 
     post {
