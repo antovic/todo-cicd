@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     // Installation de pnpm via npm
-                    sh '''
+                    bat '''
                         curl -f https://get.pnpm.io/v6.js | node - add --global pnpm
                         pnpm install
                     '''
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'pnpm test'
+                        bat 'pnpm test'
                     } catch (err) {
                         unstable('Tests failed')
                         error "Test stage failed: ${err}"
@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'docker build -t $DOCKER_IMAGE .'
+                        bat 'docker build -t $DOCKER_IMAGE .'
                     } catch (err) {
                         error "Docker build failed: ${err}"
                     }
@@ -66,7 +66,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'docker-compose up -d'
+                        bat 'docker-compose up -d'
                     } catch (err) {
                         error "Deployment failed: ${err}"
                     }
@@ -79,18 +79,18 @@ pipeline {
         success {
             echo 'Pipeline exécuté avec succès!'
             script {
-                sh 'echo "Application déployée avec succès sur http://localhost:80"'
+                bat 'echo "Application déployée avec succès sur http://localhost:80"'
             }
         }
         failure {
             echo 'Échec du pipeline'
             script {
-                sh 'docker-compose down || true'
+                bat 'docker-compose down || true'
             }
         }
         always {
             script {
-                sh 'docker system prune -f || true'
+                bat 'docker system prune -f || true'
                 archiveArtifacts artifacts: '**/log/*.log', allowEmptyArchive: true
             }
         }
